@@ -26,3 +26,7 @@ services:
       - type: bind
         source: ./cert
         target: /app/cert
+    environment:
+      - dbUser=SA
+      - dbPassword=CHANGE_ME_12345!
+      - dbIP=database
