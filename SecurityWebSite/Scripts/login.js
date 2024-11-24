@@ -15,9 +15,11 @@ submitButton.onclick = function() {
 
         loadHTML("/pages/home.html", document.body);
 
-    }, function (response) {
+    }, function (xhr, response) {
 
-        alert("Invalid credentials.");
+        let json = JSON.parse(xhr["responseJSON"]);
+
+        alert("Error: " + json["error"]);
 
     });
 
