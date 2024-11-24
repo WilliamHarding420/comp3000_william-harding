@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SecurityWebSite.DatabaseModels;
 
 namespace SecurityWebSite.Controllers
 {
@@ -18,14 +19,25 @@ namespace SecurityWebSite.Controllers
         public async Task<string> LoginEndpoint([FromBody] LoginData data)
         {
 
-            if (data.Username == "test" &&  data.Password == "password") 
+            Database db = new();
+
+            User? user = db.Users.FirstOrDefault(user => user.Username == data.Username);
+
+            if (user == null)
             {
-                // WILL RETURN AUTH TOKEN ONCE DATABASE AND JWT SETUP
-                return "Correct Credentials.";
+                Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return await JsonResponse.ErrorResponse("Invalid Credentials.");
+            }
+
+            string inputPasswordHash = SecurityUtils.HashPassword(data.Password, user.Salt);
+
+            if (inputPasswordHash == user.PasswordHash)
+            {
+                return await JsonResponse.SingleResponse("token", await JwtUtils.AuthorizeUser(user.UserID));
             }
 
             Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return "Incorrect Credentials.";
+            return await JsonResponse.ErrorResponse("Invalid Credentials");
 
         }
 
