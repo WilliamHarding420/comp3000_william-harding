@@ -65,14 +65,14 @@ namespace SecurityWebSite
             // Configuring https certificate to use docker volume cert
             builder.WebHost.ConfigureKestrel(config =>
             {
-                config.ListenAnyIP(443, options =>
+                config.ListenAnyIP(444, options =>
                 {
                     options.UseHttps(httpsOptions =>
                     {
                         httpsOptions.ServerCertificate = new X509Certificate2(@"/app/cert/websitecert.pfx", "password");
                     });
                 });
-                config.ListenAnyIP(80);
+                config.ListenAnyIP(8080);
             });
 
             var app = builder.Build();
@@ -85,8 +85,8 @@ namespace SecurityWebSite
 
             app.MapControllers();
 
-            app.Urls.Add("http://[::]:80");
-            app.Urls.Add("https://[::]:443");
+            app.Urls.Add("http://[::]:8080");
+            app.Urls.Add("https://[::]:444");
 
             app.Run();
         }
