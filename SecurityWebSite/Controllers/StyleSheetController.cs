@@ -8,7 +8,7 @@ namespace SecurityWebSite.Controllers
         public static string StylesFolder = @"/app/Styles/";
 
         [HttpGet]
-        [Route("/style/{Style}")]
+        [Route("/styles/{Style}")]
         public async Task<ActionResult> GetStyle([FromRoute] string Style)
         {
 
