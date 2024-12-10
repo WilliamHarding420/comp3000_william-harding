@@ -1,8 +1,23 @@
 
 services:
 
+  nginx:
+    image: nginx
+    ports:
+     - "80:80"
+     - "443:443"
+    container_name: nginx
+    volumes:
+      - type: bind
+        source: ./nginx
+        target: /etc/nginx/conf.d/
+      - type: bind
+        source: ./cert
+        target: /etc/cert
+
   mediamtx:
     image: bluenviron/mediamtx
+    container_name: mediamtx
     ports:
       - 1935:1935
       - 8554:8554
@@ -10,6 +25,7 @@ services:
   
   database:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: database
     ports: 
       - 1433:1433
     environment:
@@ -19,9 +35,10 @@ services:
   website:
     hostname: SecurityWebsite
     build: ./SecurityWebSite
+    container_name: website
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:8080"
+      - "444:444"
     volumes:
       - type: bind
         source: ./cert
