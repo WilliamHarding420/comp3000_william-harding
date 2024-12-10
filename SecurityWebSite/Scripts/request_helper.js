@@ -38,3 +38,11 @@ function loadHTML(url, parentElement) {
     });
 
 }
+
+function loadHTMLToID(url, parentID) {
+
+    let parent = document.getElementById(parentID);
+
+    loadHTML(url, parent);
+
+}
