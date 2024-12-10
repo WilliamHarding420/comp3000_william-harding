@@ -1,23 +1,30 @@
-﻿<div class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <button class="navbar-brand btn " id="brand-button">SecurityWebsite</button>
+﻿<div class="navbar navbar-expand-lg nav-colour">
+    <div class="container-fluid w-100">
+        <button class="navbar-brand btn" id="brand-button" onclick="loadHTMLToID('/pages/home.html', 'body')">SecurityWebsite</button>
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
-                    <button class="nav-link">Home</button>
+                    <button class="nav-link btn" onclick="loadHTMLToID('/pages/home.html', 'body')">Home</button>
                 </li>
 
                 <li class="nav-item">
-                    <button class="nav-link">Modules</button>
+                    <button class="nav-link btn" onclick="loadHTMLToID('/pages/module.html', 'main-container')">Modules</button>
                 </li>
 
                 <li class="nav-item">
-                    <button class="nav-link">Admin</button>
+                    <button class="nav-link btn" onclick="loadHTMLToID('/pages/admin.html', 'main-container')">Admin</button>
                 </li>
 
             </ul>
         </div>
     </div>
+
+</div>
+
+<div id="main-container" class="m-0 p-0">
+
+    <h1>Home Page</h1>
+
 </div>
