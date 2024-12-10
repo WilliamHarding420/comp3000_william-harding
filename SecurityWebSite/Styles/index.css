@@ -1,0 +1,33 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #EEEEEE;
+    flex: 1 1 auto;
+}
+
+.nav-colour {
+    background-color: #ADB5BD;
+}
+
+.nav-secondary-colour {
+    background-color: #CED4DA;
+}
+
+.navtab {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.navtab-item {
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.nav-link {
+    color: black;
+}
+
+.nav-link:hover, .nav-item:hover, .nav-button:hover {
+    color: dimgray;
+}
