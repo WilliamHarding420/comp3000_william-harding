@@ -24,11 +24,23 @@ function GET_Request(url, successCallback, errorCallback) {
 
 }
 
-function loadHTML(url, parentElement) {
+function loadScript(script) {
+
+    $.getScript("/scripts/" + script);
+
+}
+
+function loadHTML(url, parentElement, script = null, success = function () { }) {
 
     GET_Request(url, function (response) {
 
         parentElement.innerHTML = response;
+
+        if (script !== null) {
+            loadScript(script);
+        }
+
+        success();
 
     }, function (response) {
 
@@ -39,10 +51,10 @@ function loadHTML(url, parentElement) {
 
 }
 
-function loadHTMLToID(url, parentID) {
+function loadHTMLToID(url, parentID, script = null, success = function () { }) {
 
     let parent = document.getElementById(parentID);
 
-    loadHTML(url, parent);
+    loadHTML(url, parent, script);
 
 }
