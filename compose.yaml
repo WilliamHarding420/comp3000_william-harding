@@ -20,9 +20,15 @@ services:
   mediamtx:
     image: bluenviron/mediamtx
     container_name: mediamtx
+    environment:
+      - MTX_API=yes
+      - MTX_APIADDRESS=:80
+      - MTX_AUTHHTTPADDRESS=http://website:8080/auth/rtsp
+      - MTX_AUTHMETHOD=http
     ports:
       - 8554:8554
       - 8889:8888
+      - 1935:1935
   
   database:
     image: mcr.microsoft.com/mssql/server:2022-latest
