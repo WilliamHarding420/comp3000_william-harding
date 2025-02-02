@@ -22,6 +22,9 @@ namespace SecurityWebSite.DatabaseModels
         public string Port { get; set; }
 
         [Required]
+        public string StreamURL { get; set; }
+
+        [Required]
         public string PublishURL { get; set; }
 
         public int LocationID { get; set; }
