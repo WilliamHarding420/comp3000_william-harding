@@ -26,18 +26,18 @@ namespace SecurityWebSite.Controllers
             if (user == null)
             {
                 Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return await JsonResponse.ErrorResponse("Invalid Credentials.");
+                return await JsonResponse<string>.ErrorResponse("Invalid Credentials.");
             }
 
             string inputPasswordHash = SecurityUtils.HashPassword(data.Password, user.Salt);
 
             if (inputPasswordHash == user.PasswordHash)
             {
-                return await JsonResponse.SingleResponse("token", await JwtUtils.AuthorizeUser(user.UserID));
+                return await JsonResponse<string>.SingleResponse("token", await JwtUtils.AuthorizeUser(user.UserID));
             }
 
             Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return await JsonResponse.ErrorResponse("Invalid Credentials");
+            return await JsonResponse<string>.ErrorResponse("Invalid Credentials");
 
         }
 

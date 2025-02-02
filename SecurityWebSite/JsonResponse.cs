@@ -2,14 +2,14 @@
 
 namespace SecurityWebSite
 {
-    public class JsonResponse
+    public class JsonResponse<Type>
     {
 
-        private Dictionary<string, string> ResponseInformation;
+        private Dictionary<string, Type> ResponseInformation;
 
         public JsonResponse() 
         { 
-            ResponseInformation = new Dictionary<string, string>();
+            ResponseInformation = new Dictionary<string, Type>();
         }
 
         public Task<string> BuildResponse()
@@ -17,23 +17,23 @@ namespace SecurityWebSite
             return Task.FromResult(JsonSerializer.Serialize(ResponseInformation));
         }
 
-        public void AddData(string key, string value)
+        public void AddData(string key, Type value)
         {
             ResponseInformation.Add(key, value);
         }
 
         public static async Task<string> ErrorResponse(string error)
         {
-            JsonResponse response = new JsonResponse();
+            JsonResponse<string> response = new JsonResponse<string>();
 
             response.AddData("error", error);
 
             return await response.BuildResponse();
         }
 
-        public static async Task<string> SingleResponse(string key, string value)
+        public static async Task<string> SingleResponse(string key, Type value)
         {
-            JsonResponse response = new JsonResponse();
+            JsonResponse<Type> response = new JsonResponse<Type>();
 
             response.AddData(key, value);
 
