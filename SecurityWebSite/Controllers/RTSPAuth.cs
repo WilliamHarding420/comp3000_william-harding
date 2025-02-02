@@ -28,6 +28,14 @@ namespace SecurityWebSite.Controllers
 
             Database db = new();
 
+            if (details.Action == "read")
+            {
+
+                Response.StatusCode = StatusCodes.Status200OK;
+                return Task.CompletedTask;
+
+            }
+
             User? user = db.Users.Where(dbUser => dbUser.Username == details.user).FirstOrDefault();
 
             if (user == null)
@@ -38,13 +46,13 @@ namespace SecurityWebSite.Controllers
 
             string hashedPassword = SecurityUtils.HashPassword(details.password, user.Salt);
 
-            if (hashedPassword != user.PasswordHash || !user.CanStream)
+            if (hashedPassword == user.PasswordHash && user.CanStream && details.Action == "publish")
             {
-                Response.StatusCode = StatusCodes.Status401Unauthorized;
+                Response.StatusCode = StatusCodes.Status200OK;
                 return Task.CompletedTask;
             }
 
-            Response.StatusCode = StatusCodes.Status200OK;
+            Response.StatusCode = StatusCodes.Status401Unauthorized;
             return Task.CompletedTask;
 
         }
