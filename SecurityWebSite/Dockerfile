@@ -6,6 +6,14 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+USER root
+
+RUN apt-get -y update
+RUN apt-get -y upgrade
+RUN apt-get install -y ffmpeg
+
+USER app
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -21,6 +29,8 @@ RUN dotnet publish "./SecurityWebSite.csproj" -c $BUILD_CONFIGURATION -o /app/pu
 
 FROM base AS final
 WORKDIR /app
+
+RUN mkdir /app/Thumbnails
 
 RUN mkdir /app/Pages
 COPY ./Pages/* /app/Pages
