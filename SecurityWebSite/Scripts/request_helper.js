@@ -1,4 +1,5 @@
 ﻿
+const htmlLoadEvent = new CustomEvent("html_load");
 
 function POST_Request(url, jsonData, successCallback, errorCallback) {
 
@@ -40,6 +41,7 @@ function loadHTML(url, parentElement, script = null, success = function () { }) 
             loadScript(script);
         }
 
+        document.dispatchEvent(htmlLoadEvent);
         success();
 
     }, function (response) {
