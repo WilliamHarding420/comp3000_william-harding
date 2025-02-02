@@ -50,7 +50,11 @@ services:
       - type: bind
         source: ./cert
         target: /app/cert
+      - thumbnails:/app/Thumbnails 
     environment:
       - dbUser=SA
       - dbPassword=CHANGE_ME_12345!
       - dbIP=database
+
+volumes:
+  thumbnails:
