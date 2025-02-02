@@ -19,5 +19,8 @@ namespace SecurityWebSite.DatabaseModels
         [Required]
         public string Salt { get; set; }
 
+        [Required]
+        public bool CanStream { get; set; } = false;
+
     }
 }
