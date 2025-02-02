@@ -56,9 +56,13 @@ function showCameras() {
         cameras["cameras"].forEach((element) => {
 
             let streamButton = document.createElement("button");
-            streamButton.innerHTML = element["Name"];
+            streamButton.innerHTML = `<img width='640' height='360' src='/thumbnails/${element['Name']}.png'>` + element["Name"];
             streamButton.onclick = function () {
+
+                POST_Request(`/cctv/thumbnail/update/${element['Name']}`, null, null, null);
+
                 showStream(element["PublishURL"]);
+
             };
 
             camera_list.appendChild(streamButton);
