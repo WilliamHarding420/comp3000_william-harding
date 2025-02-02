@@ -34,19 +34,12 @@ namespace SecurityWebSite
                 if (Database.EnsureCreated())
                 {
 
-                    string password = "admin";
-                    string salt = SecurityUtils.GenerateSalt();
+                    User admin = CreateDefaultUser("admin", "admin");
+                    User publishUser = CreateDefaultUser("camera", "LET_ME_IN");
+                    publishUser.CanStream = true;
 
-                    string passwordHash = SecurityUtils.HashPassword(password, salt);
-
-                    User adminAccount = new User()
-                    {
-                        Username = "admin",
-                        PasswordHash = passwordHash,
-                        Salt = salt
-                    };
-
-                    await Users.AddAsync(adminAccount);
+                    await Users.AddAsync(admin);
+                    await Users.AddAsync(publishUser);
                     await SaveChangesAsync();
 
                 }
@@ -64,6 +57,23 @@ namespace SecurityWebSite
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Camera> Cameras { get; set; }
+
+        private User CreateDefaultUser(string name, string password)
+        {
+            string salt = SecurityUtils.GenerateSalt();
+
+            string passwordHash = SecurityUtils.HashPassword(password, salt);
+
+            User userAccount = new User()
+            {
+                Username = name,
+                PasswordHash = passwordHash,
+                Salt = salt
+            };
+
+            return userAccount;
+        }
 
     }
 }
