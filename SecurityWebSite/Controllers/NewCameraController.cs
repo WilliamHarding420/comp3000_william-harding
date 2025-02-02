@@ -29,6 +29,7 @@ namespace SecurityWebSite.Controllers
                 Name = cameraData.Name,
                 IP = cameraData.IP,
                 Port = cameraData.Port,
+                StreamURL = "",
                 PublishURL = cameraData.PublishURL,
                 LocationID = locationID
             };
