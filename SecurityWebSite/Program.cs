@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.IdentityModel.Tokens;
+using SecurityWebSite.DatabaseModels;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -35,6 +36,13 @@ namespace SecurityWebSite
             Database db = new();
             db.BuildConnectionString();
             db.EnsureDBCreated();
+
+            // Publishing existing cameras to website
+            Camera[] cameras = db.Cameras.Where(cam => cam.IP != "0").ToArray();
+            foreach(Camera cam in cameras)
+            {
+                StreamUtils.PublishCamera(cam);
+            }
 
             // Configuring JWT validaiton
             Validation_Parameters = new TokenValidationParameters()
