@@ -12,8 +12,8 @@ namespace SecurityWebSite
             Process process = new Process();
 
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.Arguments = $"-i rtsp://{camera.IP}:{camera.Port}/{camera.StreamURL} " +
-                                          $"-f rtsp -rtsp_transport tcp rtsp://admin:admin@mediamtx:8554/{camera.PublishURL}";
+            process.StartInfo.Arguments = $"-re -f rtsp -rtsp_transport tcp -i rtsp://{camera.IP}:{camera.Port}/{camera.StreamURL} -c:a copy -c:v libx264 " +
+                                          $"-f rtsp -rtsp_transport tcp rtsp://camera:LET_ME_IN@mediamtx:8554/{camera.PublishURL}";
 
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
@@ -32,7 +32,7 @@ namespace SecurityWebSite
             Process process = new Process();
 
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.Arguments = $"-y -rtsp_transport tcp -i rtsp://mediamtx:8554/mystream -update true -vframes 1 /app/Thumbnails/{camera.Name}.png";
+            process.StartInfo.Arguments = $"-y -rtsp_transport tcp -i rtsp://mediamtx:8554/{camera.PublishURL} -update true -vframes 1 /app/Thumbnails/{camera.Name}.png";
 
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
