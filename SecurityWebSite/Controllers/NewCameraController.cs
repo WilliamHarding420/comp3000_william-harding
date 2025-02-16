@@ -13,6 +13,7 @@ namespace SecurityWebSite.Controllers
             public string Name { get; set; }
             public string IP { get; set; }
             public string Port { get; set; }
+            public string CamUrl { get; set; }
             public string PublishURL { get; set; }
             public int? LocationID { get; set; }
         }
@@ -29,7 +30,7 @@ namespace SecurityWebSite.Controllers
                 Name = cameraData.Name,
                 IP = cameraData.IP,
                 Port = cameraData.Port,
-                StreamURL = "",
+                StreamURL = cameraData.CamUrl,
                 PublishURL = cameraData.PublishURL,
                 LocationID = locationID
             };
@@ -37,6 +38,8 @@ namespace SecurityWebSite.Controllers
 
             await db.Cameras.AddAsync(camera);
             await db.SaveChangesAsync();
+
+            StreamUtils.PublishCamera(camera);
 
             return await JsonResponse<string>.SingleResponse("success", "Camera was successfully added.");
 
