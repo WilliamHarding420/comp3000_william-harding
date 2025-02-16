@@ -28,7 +28,7 @@ namespace SecurityWebSite.Controllers
 
             Database db = new();
 
-            if (details.Action == "read")
+            if (details.Action == "read" || details.Action == "playback")
             {
 
                 Response.StatusCode = StatusCodes.Status200OK;
