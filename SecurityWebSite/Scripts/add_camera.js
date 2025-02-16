@@ -4,12 +4,14 @@ document.getElementById("addCamButton").onclick = function () {
     let camName = document.getElementById("camNameInput").value;
     let camIP = document.getElementById("camIPInput").value;
     let camPort = document.getElementById("camPortInput").value;
+    let camURL = document.getElementById("camURLInput").value;
     let camPublish = document.getElementById("camPublishInput").value;
 
     let formData = {
         name: camName,
         ip: camIP,
         port: camPort,
+        camurl: camURL,
         publishurl: camPublish,
     }
 
