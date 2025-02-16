@@ -25,10 +25,14 @@ services:
       - MTX_APIADDRESS=:80
       - MTX_AUTHHTTPADDRESS=http://website:8080/auth/rtsp
       - MTX_AUTHMETHOD=http
+      - MTX_PATHDEFAULTS_RECORD=yes
+      - MTX_PATHDEFAULTS_RECORDDELETEAFTER=1h
+      - MTX_PLAYBACK=yes
     ports:
       - 8554:8554
       - 8889:8888
       - 1935:1935
+      - 9996:9996
   
   database:
     image: mcr.microsoft.com/mssql/server:2022-latest
