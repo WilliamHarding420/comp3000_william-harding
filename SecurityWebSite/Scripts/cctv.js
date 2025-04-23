@@ -1,6 +1,18 @@
 ﻿
 function showStream(streamURL, cameraName) {
 
+if (localStorage.getItem("currentFolderID") == null) {
+
+    localStorage.setItem("currentFolderID", 0);
+    localStorage.setItem("currentFolderPath", JSON.stringify([
+        {
+            "LocationID": 0,
+            "LocationName": "root"
+        }
+    ]));
+
+}
+
     loadHTML("/pages/stream.html", document.getElementById("camera-module-container"), null, function () {
 
         let recordingsButton = document.getElementById("recordings-button");
