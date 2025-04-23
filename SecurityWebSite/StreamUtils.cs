@@ -32,7 +32,7 @@ namespace SecurityWebSite
             Process process = new Process();
 
             process.StartInfo.FileName = "ffmpeg";
-            process.StartInfo.Arguments = $"-y -rtsp_transport tcp -i rtsp://mediamtx:8554/{camera.PublishURL} -update true -vframes 1 /app/Thumbnails/{camera.Name}.png";
+            process.StartInfo.Arguments = $"-y -rtsp_transport tcp -i rtsp://mediamtx:8554/{camera.PublishURL} -update true -vframes 1 /app/Thumbnails/{camera.CameraID}.png";
 
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
