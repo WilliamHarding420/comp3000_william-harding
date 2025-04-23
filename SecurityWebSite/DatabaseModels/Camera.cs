@@ -27,7 +27,19 @@ namespace SecurityWebSite.DatabaseModels
         [Required]
         public string PublishURL { get; set; }
 
-        public int LocationID { get; set; }
+
+        // Foreign Key
+        private int? _LocationID { get; set; }
+        public int? LocationID { 
+            get { return _LocationID; } 
+            set { 
+                if (value == 0) 
+                    value = null; 
+                _LocationID = value; 
+            } 
+        }
+
+        public Location Location { get; set; }
 
     }
 }
