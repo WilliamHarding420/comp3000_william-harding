@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SecurityWebSite.DatabaseModels;
 
 namespace SecurityWebSite.Controllers
@@ -18,12 +19,11 @@ namespace SecurityWebSite.Controllers
             public int? LocationID { get; set; }
         }
 
+        [Authorize]
         [HttpPost]
         [Produces("application/json")]
         public async Task<string> AddCamera([FromBody] CameraData cameraData)
         {
-
-            int locationID = (cameraData.LocationID == null) ? 0 : (int) cameraData.LocationID;
 
             Camera camera = new Camera()
             {
@@ -32,7 +32,7 @@ namespace SecurityWebSite.Controllers
                 Port = cameraData.Port,
                 StreamURL = cameraData.CamUrl,
                 PublishURL = cameraData.PublishURL,
-                LocationID = locationID
+                LocationID = cameraData.LocationID
             };
             Database db = new();
 
