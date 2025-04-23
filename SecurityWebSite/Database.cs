@@ -56,8 +56,19 @@ namespace SecurityWebSite
             optionsBuilder.UseSqlServer(ConnectionString, sqlOptions => sqlOptions.EnableRetryOnFailure(10));
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Location>()
+                .HasMany(e => e.Cameras)
+                .WithOne(e => e.Location)
+                .HasForeignKey(e => e.LocationID)
+                .HasPrincipalKey(e => e.LocationID)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Camera> Cameras { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
         private User CreateDefaultUser(string name, string password)
         {
