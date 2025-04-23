@@ -121,6 +121,90 @@ function showCameras() {
         });
 
     }, null);
+function newLocation() {
+
+    let locationName = prompt("Enter the name of the location...");
+
+    let locationData = {
+        "Name": locationName,
+        "ParentID": localStorage.getItem("currentFolderID")
+    }
+
+    POST_Request_Auth("/cctv/location/new", locationData, function (response) {
+
+        alert("Location " + locationName + " added.");
+        showCameras();
+
+    }, function (xhr, response) {
+
+        let json = JSON.parse(xhr["responseJSON"]);
+
+        alert("Error: " + json["error"]);
+
+    });
+
+}
+
+
+
+
+
+
+
+function deleteLocation() {
+
+    let deleteID = localStorage.getItem("currentFolderID");
+    let deleteDetails = JSON.parse(localStorage.getItem("currentFolderPath")).at(-1);
+
+    let confirmPrompt = prompt("Removing this location will also delete child locations and cameras. Type the location name to confirm.");
+
+    if (confirmPrompt != deleteDetails.Name) {
+        alert("Names do not match.");
+        return;
+    }
+
+    POST_Request_Auth("/cctv/location/remove/" + deleteID, null, function (response) {
+
+        alert("Location " + deleteDetails.LocationName + " removed.");
+
+        setPreviousLocation();
+        showCameras();
+
+    }, function (xhr, response) {
+
+        let json = JSON.parse(xhr["responseJSON"]);
+
+        alert("Error: " + json["error"]);
+
+    });
+
+
+}
+
+function deleteCamera(camera) {
+
+    let confirmPrompt = prompt("Enter the camera name to confirm you want to delete it.");
+
+    console.log(confirmPrompt);
+    console.log(camera["Name"]);
+    if (confirmPrompt != camera["Name"]) {
+        alert("Name did not match.")
+        return;
+    }
+
+    POST_Request_Auth("/cctv/remove/" + camera["CameraID"], null, function (response) {
+
+        alert("Camera " + camera["Name"] + " removed.");
+
+        loadHTMLToID('/pages/cctv.html', 'module-content', 'cctv.js');
+
+    }, function (xhr, response) {
+
+        let json = JSON.parse(xhr["responseJSON"]);
+
+        alert("Error: " + json["error"]);
+
+    });
 
 }
 
