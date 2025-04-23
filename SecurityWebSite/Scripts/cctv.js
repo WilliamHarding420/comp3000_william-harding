@@ -113,45 +113,88 @@ function stopLoadingStreamCallback(hls) {
 
 function showCameras() {
 
+    // setting the location path display
+    let pathDisplay = document.getElementById("pathDisplay");
+    let currentPathString = "Current Location Path: Root Location";
+
+    let currentPathList = JSON.parse(localStorage.getItem("currentFolderPath"));
+
+    for (let i = 1; i < currentPathList.length; i++) {
+        currentPathString += " >> " + currentPathList[i].LocationName;
+    }
+
+    pathDisplay.innerHTML = currentPathString;
+
+    let locationBackButton = document.getElementById("locationBackButton");
+
+    if (localStorage.getItem("currentFolderID") == 0) {
+        locationBackButton.disabled = true;
+    }
+    else {
+        locationBackButton.disabled = false;
+    }
+
     let camera_list = document.getElementById("camera-list");
+    let location_list = document.getElementById("location-list");
 
-    /*GET_Request("/rtsp/v3/paths/list", function (response) {
+    camera_list.innerHTML = "";
+    location_list.innerHTML = "";
 
-        response["items"].forEach((element) => {
+    GET_Request_Auth("/cctv/get/" + localStorage.getItem("currentFolderID"), function (response) {
+
+        let responseJSON = JSON.parse(response);
+        console.log(responseJSON);
+
+        responseJSON["locations"].forEach((element) => {
+
+            let locationButton = document.createElement("button");
+            locationButton.classList.add("w-100");
+            locationButton.classList.add("mt-1");
+            locationButton.innerHTML = `<div class='list w-100'>${element["LocationName"]}</div>`
+
+            locationButton.onclick = function () {
+
+                let currentPath = JSON.parse(localStorage.getItem("currentFolderPath"));
+                currentPath.push({
+                    "LocationID": element["LocationID"],
+                    "LocationName": element["LocationName"]
+                });
+
+                localStorage.setItem("currentFolderID", element["LocationID"]);
+                localStorage.setItem("currentFolderPath", JSON.stringify(currentPath));
+
+                showCameras();
+
+            }
+
+            location_list.appendChild(locationButton);
+
+        });
+
+        responseJSON["cameras"].forEach((element) => {
 
             let streamButton = document.createElement("button");
-            streamButton.innerHTML = element["name"];
+            streamButton.classList.add("m-2");
+            streamButton.innerHTML = `<div class='list'><img width='320' height='180' src='/thumbnails/${element['CameraID']}.png'><br /> ${element["Name"]}</div>`;
             streamButton.onclick = function () {
-                showStream(element["name"]);
-            };
+
+                POST_Request_Auth(`/cctv/thumbnail/update/${element["CameraID"]}`, null, null, null);
+
+                showStream(element);
+
+            }
 
             camera_list.appendChild(streamButton);
 
         });
 
-    }, null);*/
+    }, function (xhr, response)
+    {
+        alert("Could not load cameras."); console.log(response);
+    });
 
-    GET_Request("/cctv/get/0", function (response) {
+}
 
-        let cameras = JSON.parse(response);
-
-        cameras["cameras"].forEach((element) => {
-
-            let streamButton = document.createElement("button");
-            streamButton.innerHTML = `<div class='list'><img width='320' height='180' src='/thumbnails/${element['Name']}.png'><br /> ${element["Name"]}</div>`;
-            streamButton.onclick = function () {
-
-                POST_Request(`/cctv/thumbnail/update/${element['Name']}`, null, null, null);
-
-                showStream(element["PublishURL"], element["Name"]);
-
-            };
-
-            camera_list.appendChild(streamButton);
-
-        });
-
-    }, null);
 function newLocation() {
 
     let locationName = prompt("Enter the name of the location...");
