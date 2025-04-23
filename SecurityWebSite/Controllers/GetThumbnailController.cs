@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SecurityWebSite.DatabaseModels;
 
 namespace SecurityWebSite.Controllers
@@ -9,11 +10,11 @@ namespace SecurityWebSite.Controllers
     {
 
         [HttpGet]
-        [Route("/thumbnails/{Thumbnail}")]
-        public async Task<ActionResult> GetThumbnail([FromRoute] string Thumbnail)
+        [Route("/thumbnails/{thumbnail}")]
+        public async Task<ActionResult> GetThumbnail([FromRoute] string thumbnail)
         {
 
-            return base.PhysicalFile($"/app/Thumbnails/{Thumbnail}", "image/png");
+            return base.PhysicalFile($"/app/Thumbnails/{thumbnail}", "image/png");
 
         }
 
