@@ -1,5 +1,4 @@
 ﻿
-function showStream(streamURL, cameraName) {
 
 if (localStorage.getItem("currentFolderID") == null) {
 
@@ -13,18 +12,38 @@ if (localStorage.getItem("currentFolderID") == null) {
 
 }
 
+function showStream(camera) {
+
     loadHTML("/pages/stream.html", document.getElementById("camera-module-container"), null, function () {
 
+        let cameraTitle = document.getElementById("cameraTitle");
+        cameraTitle.innerHTML = camera["Name"];
+
         let recordingsButton = document.getElementById("recordings-button");
+        let editButton = document.getElementById("editDetails");
+        let deleteButton = document.getElementById("deleteCamera");
+
         recordingsButton.onclick = function () {
-            showRecordings(streamURL)
+            showRecordings(camera["PublishURL"])
         };
+
+        editButton.onclick = function () {
+            loadHTMLToID('/pages/add_camera.html', 'module-content', 'add_camera.js');
+
+            localStorage.setItem("editing", JSON.stringify(camera));
+        }
+
+        deleteButton.onclick = function () {
+            deleteCamera(camera);
+        }
+
+
 
         let player = document.getElementById("video-player");
 
         if (Hls.isSupported()) {
             let hls = new Hls();
-            hls.loadSource("http://localhost/stream/" + streamURL + "/index.m3u8");
+            hls.loadSource("http://localhost/stream/" + camera["PublishURL"] + "/index.m3u8");
             hls.attachMedia(player);
 
             // Event for stopping requesting hls stream after loading another page
@@ -32,7 +51,7 @@ if (localStorage.getItem("currentFolderID") == null) {
 
         }
         else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-            player.src = "http://localhost:8888/" + streamURL + "/index.m3u8";
+            player.src = "http://localhost:8888/" + camera["PublishURL"] + "/index.m3u8";
         }
 
     });
