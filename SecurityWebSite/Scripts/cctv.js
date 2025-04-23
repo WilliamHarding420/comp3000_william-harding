@@ -176,11 +176,23 @@ function newLocation() {
 
 }
 
+function setPreviousLocation() {
 
+    let folderPath = JSON.parse(localStorage.getItem("currentFolderPath"));
 
+    folderPath.pop();
+    localStorage.setItem("currentFolderID", folderPath[folderPath.length - 1].LocationID);
+    localStorage.setItem("currentFolderPath", JSON.stringify(folderPath));
 
+}
 
+function previousLocation() {
 
+    setPreviousLocation();
+
+    showCameras();
+
+}
 
 function deleteLocation() {
 
