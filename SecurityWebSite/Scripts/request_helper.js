@@ -14,6 +14,22 @@ function POST_Request(url, jsonData, successCallback, errorCallback) {
 
 }
 
+function POST_Request_Auth(url, jsonData, successCallback, errorCallback) {
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(jsonData),
+        success: successCallback,
+        error: errorCallback,
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("authToken")
+        }
+    })
+
+}
+
 function GET_Request(url, successCallback, errorCallback) {
 
     $.ajax({
@@ -21,6 +37,20 @@ function GET_Request(url, successCallback, errorCallback) {
         url: url,
         success: successCallback,
         error: errorCallback
+    })
+
+}
+
+function GET_Request_Auth(url, successCallback, errorCallback) {
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: successCallback,
+        error: errorCallback,
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("authToken")
+        }
     })
 
 }
