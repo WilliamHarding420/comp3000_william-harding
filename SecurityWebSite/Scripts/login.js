@@ -13,6 +13,10 @@ submitButton.onclick = function() {
 
     POST_Request("/auth/login", formData, function (response) {
 
+        let jsonResponse = JSON.parse(response);
+
+        localStorage.setItem("authToken", jsonResponse["token"])
+
         loadHTML("/pages/home.html", document.body);
 
     }, function (xhr, response) {
