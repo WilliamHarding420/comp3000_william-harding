@@ -244,7 +244,7 @@ function deleteLocation() {
 
     let confirmPrompt = prompt("Removing this location will also delete child locations and cameras. Type the location name to confirm.");
 
-    if (confirmPrompt != deleteDetails.Name) {
+    if (confirmPrompt != deleteDetails.LocationName) {
         alert("Names do not match.");
         return;
     }
