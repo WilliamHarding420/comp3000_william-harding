@@ -6,6 +6,8 @@ namespace SecurityWebSite
     public class StreamUtils
     {
 
+        private static Dictionary<int, Process> CameraProcesses = new Dictionary<int, Process>();
+
         public static Task PublishCamera(Camera camera)
         {
 
@@ -21,6 +23,26 @@ namespace SecurityWebSite
             process.StartInfo.CreateNoWindow = true;
 
             process.Start();
+
+            CameraProcesses.Add(camera.CameraID, process);
+
+            return Task.CompletedTask;
+
+        }
+
+        public static Task StopCamera(int id)
+        {
+
+            if (!CameraProcesses.ContainsKey(id))
+                return Task.CompletedTask;
+
+            Process camProcess = CameraProcesses[id];
+
+            camProcess.Kill();
+            camProcess.WaitForExit();
+            camProcess.Dispose();
+
+            CameraProcesses.Remove(id);
 
             return Task.CompletedTask;
 
