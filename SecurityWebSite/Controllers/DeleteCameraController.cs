@@ -29,6 +29,8 @@ namespace SecurityWebSite.Controllers
             db.Cameras.Remove(camera);
             await db.SaveChangesAsync();
 
+            await StreamUtils.StopCamera(id);
+
             return;
 
         }

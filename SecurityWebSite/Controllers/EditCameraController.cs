@@ -35,6 +35,8 @@ namespace SecurityWebSite.Controllers
             db.Cameras.Update(camera);
             await db.SaveChangesAsync();
 
+            await StreamUtils.StopCamera(id);
+
             StreamUtils.PublishCamera(camera);
 
             return await JsonResponse<string>.SingleResponse("success", "Camera was successfully added.");
