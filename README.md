@@ -5,12 +5,11 @@ The vision of this project is to provide a host in-premises web GUI that can be 
 
 By supporting as many common protocol for devices such as CCTV cameras (such as RTSP), I hope to provide a product that will be able to work with as many different devices as possible to allow companies and individuals alike to have one centralized area to manage their security.
 
-### Build Steps
+## Build Steps
 
-Clone the git repository.   
-Make sure docker is running.   
+Clone the git repository and make sure docker is running.   
 
-In a command line in the cloned foler: ```docker compose up --build```   
+In a command line in the cloned folder: ```docker compose up --build```   
 This will error once building the solution is finished due to missing SSL certificates in the newly created cert folder.   
 Put the following certificate files in the cert folder:
 
@@ -18,7 +17,13 @@ Put the following certificate files in the cert folder:
  - domain.rsa
  - websitecert.pfx
    
-Once those are in the cert folder, running the compose file again should launch the solution without error.
+Once those are in the cert folder, running the compose file again should launch the solution without error.   
+
+There is currently one user account with the credentials:   
+Username: admin   
+Password: admin   
+
+(There is another account but that account is utilized for publishing streams to the MediaMTX server)
 
 # Tools / Libraries Used
 [MediaMTX](https://github.com/bluenviron/mediamtx) is utilized to provide streaming content for CCTV camera feeds, allowing a number of protocol inputs and outputs.   
